@@ -1,15 +1,5 @@
-// import axios from "axios";
 import React, { useEffect } from "react";
-// import useAsync from "./useAsync";
 import { getUser, useUsersDispatch, useUsersState } from "./UsersCotnext";
-
-/* async function getUser(id) {
-  const response = await axios.get(
-    `https://jsonplaceholder.typicode.com/users/${id}`
-  );
-  console.log(id, response);
-  return response.data;
-} */
 
 function User({ id }) {
   // const [state] = useAsync(() => getUser(id), [id]);

@@ -21,3 +21,56 @@ export default function createAsyncDispatcher(type, promisFn) {
   }
   return actionHandler;
 }
+
+// reducer
+export const initialAsyncState = {
+  loading: false,
+  data: null,
+  error: null,
+};
+// loading object
+const loadingState = {
+  loading: true,
+  data: null,
+  error: null,
+};
+// data object
+const success = (data) => ({
+  loading: false,
+  data,
+  error: null,
+});
+// error object
+const error = (error) => ({
+  loading: false,
+  data: null,
+  error,
+});
+
+// 세가지 액션 리듀서, type = 액션타입, krey는 리듀서 필드네임 ex :(user, users)
+export function createAsyncHandler(type, key) {
+  const SUCCESS = `${type}_SUCCESS`;
+  const ERROR = `${type}_ERROR`;
+  function handler(state, action) {
+    switch (key) {
+      case type:
+        return {
+          ...state,
+          [key]: loadingState,
+        };
+      case "SUCCESS":
+        return {
+          ...state,
+          [key]: success(action.data),
+        };
+      case "ERROR":
+        return {
+          ...state,
+          [key]: error(action.error),
+        };
+      default:
+        return state;
+    }
+  }
+  return handler;
+}

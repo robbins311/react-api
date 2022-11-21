@@ -1,5 +1,5 @@
 // 이 함수는 파라미터로 액션의 타입 (예: GET_USER) 과 Promise 를 만들어주는 함수를 받아옴.
-export default function createAsyncDispatcher(type, promisFn) {
+export default function createAsyncDispatcher(type, promiseFn) {
   // 성공, 실패에 대한 액션타입 문자열
   const SUCCESS = `${type}_SUCCESS`;
   const ERROR = `${type}_ERROR`;
@@ -7,7 +7,7 @@ export default function createAsyncDispatcher(type, promisFn) {
   async function actionHandler(dispatch, ...rest) {
     dispatch({ type }); // 요청시작
     try {
-      const data = await promisFn(...rest); // rest 배열은 spread로
+      const data = await promiseFn(...rest); // rest 배열은 spread로
       dispatch({
         type: SUCCESS,
         data,
@@ -47,23 +47,26 @@ const error = (error) => ({
   error,
 });
 
-// 세가지 액션 리듀서, type = 액션타입, krey는 리듀서 필드네임 ex :(user, users)
+// 세가지 액션 리듀서, type = 액션타입, rey는 리듀서 필드네임 ex :(user, users)
 export function createAsyncHandler(type, key) {
+  // 성공, 실패에 대한 액션 타입 문자열을 준비합니다.
   const SUCCESS = `${type}_SUCCESS`;
   const ERROR = `${type}_ERROR`;
+
+  // 함수를 새로 만들어서
   function handler(state, action) {
-    switch (key) {
+    switch (action.type) {
       case type:
         return {
           ...state,
           [key]: loadingState,
         };
-      case "SUCCESS":
+      case SUCCESS:
         return {
           ...state,
           [key]: success(action.data),
         };
-      case "ERROR":
+      case ERROR:
         return {
           ...state,
           [key]: error(action.error),
@@ -72,5 +75,7 @@ export function createAsyncHandler(type, key) {
         return state;
     }
   }
+
+  // 반환합니다
   return handler;
 }

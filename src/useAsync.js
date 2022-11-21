@@ -42,7 +42,6 @@ function useAsync(callback, deps = [], skip = false) {
   };
   useEffect(() => {
     if (skip) return;
-    console.log(skip);
     fetchData();
     // eslint-disable-next-line
   }, deps);

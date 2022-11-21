@@ -2,11 +2,14 @@
 import "./App.css";
 // import ReactAsyncUsers from "./ReactAsyncUsers";
 import Users from "./Users";
+import { UsersProvider } from "./UsersCotnext";
 
 function App() {
   return (
     <>
-      <Users />
+      <UsersProvider>
+        <Users />
+      </UsersProvider>
       {/* <ReactAsyncUsers /> */}
     </>
   );
